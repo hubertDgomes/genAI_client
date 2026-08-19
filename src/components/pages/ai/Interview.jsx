@@ -25,19 +25,21 @@ import {
   ExternalLink
 } from 'lucide-react';
 import useInterview from './hooks/useInterview';
+import HistoryDrawer from './components/HistoryDrawer';
 
 /**
  * Interview Component dynamically rendering real report data from the server
  */
 const Interview = ({ interviewData }) => {
   const { id } = useParams();
-  const { loading, getReportById, report } = useInterview();
+  const { loading, getReportById, report, reports, getAllInterviews } = useInterview();
 
   // Active view tab & interaction states
   const [activeSection, setActiveSection] = useState('technical'); // 'technical' | 'behavioral' | 'roadmap' | 'details'
   const [expandedQuestions, setExpandedQuestions] = useState({ 0: true }); // First question open by default
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [completedTasks, setCompletedTasks] = useState({});
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   // Fetch report by ID when accessed via /interview/:id
   useEffect(() => {
@@ -208,7 +210,17 @@ const Interview = ({ interviewData }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 self-start md:self-auto">
+          <div className="flex items-center gap-3 self-start md:self-auto flex-wrap">
+            <button
+              type="button"
+              onClick={() => setIsHistoryOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-2xl transition-all shadow-sm hover:shadow active:scale-95 cursor-pointer"
+              title="Browse Past Assessments"
+            >
+              <Clock className="w-4 h-4 text-indigo-600" />
+              <span>History ({reports?.length || 0})</span>
+            </button>
+
             <Link
               to="/home"
               className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-2xl transition-all shadow-md shadow-indigo-600/20 active:scale-95 cursor-pointer"
@@ -799,6 +811,12 @@ const Interview = ({ interviewData }) => {
 
         </div>
       </div>
+
+      {/* History Slide-over Drawer */}
+      <HistoryDrawer 
+        isOpen={isHistoryOpen} 
+        onClose={() => setIsHistoryOpen(false)} 
+      />
     </div>
   );
 };

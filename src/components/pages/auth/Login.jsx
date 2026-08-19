@@ -12,7 +12,6 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // If user was redirected here from a protected page, send them back there after login
   const from = location.state?.from?.pathname || "/home"
 
   const handleSubmit = async (e) => {
@@ -81,4 +80,3 @@ const Login = () => {
 }
 
 export default Login
-

@@ -43,7 +43,7 @@ const useInterview = () => {
         setLoading(true)
         try {
             const response = await getAllUserInterviews()
-            setReports(response.data)
+            setReports(response.interviewReports)
         } catch (error) {
             throw error
         } finally {
