@@ -7,6 +7,7 @@ import Register from './components/pages/auth/Register'
 import Interview from './components/pages/ai/Interview'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import PublicRoute from './components/common/PublicRoute'
+import Home from './components/pages/ai/Home'
 
 const App = () => {
   return (
@@ -18,8 +19,8 @@ const App = () => {
         </Route>
 
         <Route element={<ProtectedRoute />}>
-          <Route path='/home' element={<Interview />} />
-          <Route path='/interview' element={<Interview />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/interview/:id' element={<Interview />} />
         </Route>
       </Route>
     </Routes>
